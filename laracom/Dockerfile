@@ -1,4 +1,4 @@
-FROM FROM jsdecena/php8-fpm
+FROM jsdecena/php8-fpm
 
 ENV NODE_VERSION=12.6.0
 RUN apt update && apt install -y curl
