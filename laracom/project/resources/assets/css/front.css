@@ -60,7 +60,7 @@ p {
     line-height: 25px;
     font-weight: 400;
     margin-bottom: 15px;
-    margin-top: 0px;
+    margin-top: 30px;
 }
 a {
     color: #d89522;
@@ -525,7 +525,7 @@ textarea, select {
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
-    height: 60px;
+    height: 70px;
     background-color: #f5f5f5;
 }
 
