@@ -31,8 +31,15 @@
     </div>
     <div class="col-md-6">
         <div class="product-description">
-            <h1>{{ $product->name }}
-                <small>{{ config('cart.currency') }} {{ $product->price }}</small>
+            <h1>
+                <span style="font-weight: bold;">{{ $product->name }}
+                <br>
+                <br>
+                <b>
+                    <span style="color: red;">{{ $product->price * 140 }}<small>{{ config('cart.currency_symbol') }}</span>
+                    <span style="color: black;">+ 送料980円</span>
+                </b>
+                <small>SKU:{{ $product->sku }}</small>
             </h1>
             <div class="description">{!! $product->description !!}</div>
             <hr>
@@ -67,7 +74,7 @@
                                 placeholder="Quantity" value="{{ old('quantity') }}" />
                             <input type="hidden" name="product" value="{{ $product->id }}" />
                         </div>
-                        <button type="submit" class="btn btn-warning"><i class="fa fa-cart-plus"></i> Add to cart
+                        <button type="submit" class="btn btn-warning"><i class="fa fa-cart-plus"></i> かごに追加
                         </button>
                     </form>
                 </div>
