@@ -77,6 +77,38 @@
                         <button type="submit" class="btn btn-warning"><i class="fa fa-cart-plus"></i> かごに追加
                         </button>
                     </form>
+                    
+                    <h2>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="star-rating">
+                                        @foreach (range(1, 5) as $_)
+                                            @if ($_ <= 3)
+                                                <span class="star_on">&#9733;</span>
+                                            @else
+                                                <span class="star_off">&#9733;</span>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="reviwe-comment">
+                                        <textarea class="reviwe-comment">a</textarea>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </h2>
+                        <form action="{{ route('review.index') }}" class="form-inline" method="post">
+                            {{ csrf_field() }}
+                            <input type="number" id="star-rating" name="star-rating" min="1" max="5">
+                            <input type="text" id="text-rating" name="text-rating">
+                            <input type="hidden" name="product" value="{{ $product->id }}" />
+                            <button type="submit" class="btn btn-warning"><i class="fa fa-regist-review"></i> 登録 </button>
+                        </form>
                 </div>
             </div>
         </div>
