@@ -570,6 +570,28 @@ textarea, select {
     display: block;
 }
 
+.star-rating {
+    font-size: 0; /* 行の高さをなくす */
+}
+
+.star_on {
+    display: inline-block;
+    font-size: 24px;
+    color: #fae900; /* グレーで星を表示 */
+}
+
+.star_off {
+    display: inline-block;
+    font-size: 24px;
+    color: #ccc; /* グレーで星を表示 */
+}
+.reviwe-comment{
+    resize: none;
+    text-align: left;
+    width: 750px;
+}
+
+
 a:hover img {
     border: 1px solid #d89522;
 }
