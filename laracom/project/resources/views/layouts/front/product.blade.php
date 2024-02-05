@@ -79,36 +79,63 @@
                     </form>
                     
                     <h2>
-                        <table>
-                            <tr>
-                                <td>
-                                    <div class="star-rating">
-                                        @foreach (range(1, 5) as $_)
-                                            @if ($_ <= 3)
-                                                <span class="star_on">&#9733;</span>
-                                            @else
-                                                <span class="star_off">&#9733;</span>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="reviwe-comment">
-                                        <textarea class="reviwe-comment">a</textarea>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                        @if(!isset($reviews))
+                            <small style="font-size: 18px;">商品画面からレビューを確認できます</small>
+                        @elseif($reviews === 0)
+                            <div class="reviews">
+                                <small>まだレビューが投稿されていません</small>
+                            </div>
+                            <div class="reviews-form">
+                                @if(Auth::check())
+                                    <form action="{{ route('review.index') }}" class="form-inline" method="post">
+                                        {{ csrf_field() }}
+                                        <input type="number" id="star-rating" name="star-rating" min="1" max="5">
+                                        <input type="text" id="text-rating" name="text-rating">
+                                        <input type="hidden" name="product" value="{{ $product->id }}" />
+                                        <button type="submit" class="btn btn-warning"><i class="fa fa-regist-review"></i> 登録 </button>
+                                    </form>
+                                @endif
+                            </div>
+                        @else
+                            <div class="reviews">
+                                <table>
+                                    @foreach ($reviews as $review)
+                                        <tr>
+                                            <td>
+                                                <div class="star-rating">
+                                                    @foreach (range(1, 5) as $_)
+                                                        @if ($_ <= $review->review_star)
+                                                            <span class="star_on">&#9733;</span>
+                                                        @else
+                                                            <span class="star_off">&#9733;</span>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="reviwe-comment">
+                                                    <textarea class="review-comment" readonly>{{$review->review_comment}}</textarea>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                            <div class="reviews-form">
+                                @if(Auth::check())
+                                    <form action="{{ route('review.index') }}" class="form-inline" method="post">
+                                        {{ csrf_field() }}
+                                        <input type="number" id="star-rating" name="star-rating" class="review-input" min="1" max="5">
+                                        <input type="text" id="text-rating" name="text-rating" class="review-input-text">
+                                        <input type="hidden" name="product" value="{{ $product->id }}" />
+                                        <button type="submit" class="btn btn-warning" id='reviewInput'><i class="fa fa-regist-review"></i>登録</button>
+                                    </form>
+                                @endif
+                            </div>
+                        @endif
                     </h2>
-                        <form action="{{ route('review.index') }}" class="form-inline" method="post">
-                            {{ csrf_field() }}
-                            <input type="number" id="star-rating" name="star-rating" min="1" max="5">
-                            <input type="text" id="text-rating" name="text-rating">
-                            <input type="hidden" name="product" value="{{ $product->id }}" />
-                            <button type="submit" class="btn btn-warning"><i class="fa fa-regist-review"></i> 登録 </button>
-                        </form>
                 </div>
             </div>
         </div>

@@ -7,6 +7,10 @@ use App\Shop\Products\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Shop\Products\Transformations\ProductTransformable;
 
+// model
+use App\ReviewProduct; 
+
+
 class ProductController extends Controller
 {
     use ProductTransformable;
@@ -55,11 +59,21 @@ class ProductController extends Controller
         $category = $product->categories()->first();
         $productAttributes = $product->attributes;
 
+        $reviews = 0;
+        // 新しいモデル ReviewProduct を使ってデータを取得
+        $reviews = ReviewProduct::where('product_id', $product->id)->orderBy('created_at', 'desc')->limit(10)->get();
+
+        if ($reviews->isEmpty()) {
+            //レビューが0件の場合を切り分けるため、0を入れる
+            $reviews = 0;
+        }
+
         return view('front.products.product', compact(
             'product',
             'images',
             'productAttributes',
-            'category'
+            'category',
+            'reviews'
         ));
     }
 }

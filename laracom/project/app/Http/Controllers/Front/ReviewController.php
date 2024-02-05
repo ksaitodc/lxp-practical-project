@@ -11,10 +11,7 @@ use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\Products\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Shop\ProductAttributes\Repositories\ProductAttributeRepositoryInterface;
 
-
-// 不明、なんだこいつ
 use App\Shop\Products\Transformations\ProductTransformable;
-
 use App\Http\Controllers\Controller;
 // model
 use App\ReviewProduct; 
@@ -88,7 +85,7 @@ class ReviewController extends Controller
         // レビューを保存
         $review->save();
 
-        return redirect()->route('front.get.product', ['product' => $product->slug])->with('message', 'Add to review successful');
+        return redirect()->route('front.get.product', ['product' => $product->slug])->with('message', '評価とコメントを登録しました');
 
     }
 }
