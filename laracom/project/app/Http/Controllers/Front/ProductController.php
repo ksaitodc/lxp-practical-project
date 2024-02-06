@@ -59,7 +59,6 @@ class ProductController extends Controller
         $category = $product->categories()->first();
         $productAttributes = $product->attributes;
 
-        $reviews = 0;
         // 新しいモデル ReviewProduct を使ってデータを取得
         $reviews = ReviewProduct::where('product_id', $product->id)->orderBy('created_at', 'desc')->limit(10)->get();
 
