@@ -22,3 +22,25 @@ $(document).ready(function () {
       $(".img-orderDetail").css({ width: '50px', height: '50px'});
     });
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+  // 入力フィールドの値が変更されたときに実行される関数
+  function checkInputs() {
+      var starRating = document.getElementById('star-rating').value.trim(); // 星評価の値を取得
+      var textRating = document.getElementById('text-rating').value.trim(); // テキスト評価の値を取得
+
+      // 両方の入力フィールドが空でない場合にボタンを表示する
+      if (starRating !== '' && textRating !== '') {
+          document.getElementById('reviewInput').style.display = 'block'; // ボタンを表示する
+      } else {
+          document.getElementById('reviewInput').style.display = 'none'; // ボタンを非表示にする
+      }
+  }
+
+  // 入力が変更されるたびに実行されるイベントリスナーを追加
+  document.getElementById('star-rating').addEventListener('input', checkInputs);
+  document.getElementById('text-rating').addEventListener('input', checkInputs);
+
+  // 初期状態でボタンを隠す
+  checkInputs();
+});

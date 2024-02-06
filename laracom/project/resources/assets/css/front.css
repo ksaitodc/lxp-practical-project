@@ -333,7 +333,32 @@ li.menubar-cart a {
     border-radius: 3px;
     font-family: 'Lora', serif;
 }
+.reviews{
+    margin-top: 10px;
+    color: #222;
+}
+.reviews-form{
+    margin-top: 30px;
+    color: #222;
+    display: flex;
+}
 
+.review-comment{
+    color: #222;
+    resize: none;
+    text-align: left;
+    width: 750px;
+}
+
+.review-input .review-input-text{
+    margin-top: 10px;
+}
+
+.review-input-text{
+    resize: none;
+    text-align: left !important;
+    width: 750px;
+}
 
 /* ************************
         OFFER
@@ -568,6 +593,22 @@ textarea, select {
 .product h1 > small {
     padding-top: 20px;
     display: block;
+}
+
+.star-rating {
+    font-size: 0; /* 行の高さをなくす */
+}
+
+.star_on {
+    display: inline-block;
+    font-size: 24px;
+    color: #fae900; /* グレーで星を表示 */
+}
+
+.star_off {
+    display: inline-block;
+    font-size: 24px;
+    color: #ccc; /* グレーで星を表示 */
 }
 
 a:hover img {
