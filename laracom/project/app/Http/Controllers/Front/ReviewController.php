@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 // model
 use App\ReviewProduct; 
 
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {   
@@ -69,15 +70,24 @@ class ReviewController extends Controller
     public function index()
     {
 
+        
+        $reviews = ReviewProduct::with('customer')->orderBy('created_at', 'desc')->paginate(10);
+
+
+        return view('admin.reviews.list', ['reviews' => $reviews]);
+
     }
 
     public function store(AddToReview $request)
     {
         $product = $this->productRepo->findProductById($request->input('product'));
+        $customer = Auth::user();
+        //dd($customer);
 
          // 新しいレビューを作成
         $review = new ReviewProduct([
             'product_id' => $product->id,
+            'customer_id' => $customer->id,
             'review_star' => $request->input('star-rating'),
             'review_comment' => $request->input('text-rating'),
         ]);
