@@ -140,6 +140,29 @@
             </div>
         </div>
     </div>
+    <div class="col-md-8">
+        <h3>
+            <ul class="col-md-12 list-unstyled" style="display: flex;">
+                @foreach ($recommendProducts as $recommendProduct)
+                    <li>
+                        <a href="{{ route( 'front.get.product', $recommendProduct->product->slug ) }}">
+                            @if (!isset($recommendProduct->product->cover) )
+                                <figure>
+                                    <img class="img-bordered img-responsive" src="{{ $recommendProduct->product->cover }}">
+                                    <figcaption>{{ $recommendProduct->product->name }}</figcaption>
+                                </figure>
+                            @else
+                                <figure>
+                                    <img class="img-responsive img-thumbnail" src="{{ asset('images/NoData.png') }}" >
+                                    <figcaption>{{ $recommendProduct->product->name }}</figcaption>
+                                </figure>
+                            @endif
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </h3>
+    </div>
 </div>
 @section('js')
     <script type="text/javascript">

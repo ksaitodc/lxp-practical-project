@@ -334,4 +334,41 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return $this->model->brand;
     }
+
+    /**
+     * @return 
+     */
+    public function recommendProducts($product)
+    {
+
+         // 指定された商品の特徴ベクトルを取得
+         $productVector = collect([$product->category_id, $product->material, $product->brand_id, $product->weight]);
+ 
+         // コサイン類似度を計算して商品を推薦
+         return Product::where('id', '!=', $product->id)
+         ->get()
+         ->map(function ($otherProduct) use ($productVector) {
+             $otherVector = collect([$otherProduct->category_id, $otherProduct->material, $otherProduct->brand_id, $otherProduct->weight]);
+             // ベクトルの内積を計算
+             $dotProduct = $productVector->zip($otherVector)->map(function ($item) {
+                 return $item[0] * $item[1];
+             })->sum();
+             // ベクトルの大きさを計算
+             $magnitude1 = sqrt($productVector->map(function ($item) {
+                 return $item ** 2;
+             })->sum());
+             $magnitude2 = sqrt($otherVector->map(function ($item) {
+                 return $item ** 2;
+             })->sum());
+             // 類似度を計算
+             $similarity = ($magnitude1 == 0 || $magnitude2 == 0) ? 0 : $dotProduct / ($magnitude1 * $magnitude2);
+             return (object)[
+                 'product' => $otherProduct,
+                 'similarity' => $similarity,
+             ];
+         })
+         ->sortByDesc('similarity')
+         ->take(5); // 上位5つの類似商品を取得
+
+    }
 }
