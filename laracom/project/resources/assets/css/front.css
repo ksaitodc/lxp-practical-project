@@ -360,6 +360,39 @@ li.menubar-cart a {
     width: 750px;
 }
 
+
+.recommends{
+    padding-top: 100px;
+    padding-left: 300px;
+}
+
+.reccomendList{
+    padding-left: 30px;
+}
+
+.recommendFigure{
+    border: thin #c0c0c0 solid;
+    display: flex;
+    flex-flow: column;
+    padding: 5px;
+    max-width: 220px;
+    margin: auto;
+  }
+  
+.recommendImg {
+max-width: 220px;
+max-height: 150px;
+}
+
+.recommendfigCaption {
+    background-color: #222;
+    color: #fff;
+    padding: 3px;
+    text-align: center;
+    font-size: 20px;
+  }
+  
+
 /* ************************
         OFFER
 ************************** */

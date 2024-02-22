@@ -140,21 +140,22 @@
             </div>
         </div>
     </div>
-    <div class="col-md-8">
+    @if(isset($recommendProducts))
+    <div class="col-md-8 recommends">
         <h3>
-            <ul class="col-md-12 list-unstyled" style="display: flex;">
+            <ul class="col-md-8 list-unstyled" style="display: flex;">
                 @foreach ($recommendProducts as $recommendProduct)
-                    <li>
+                    <li class="reccomendList">
                         <a href="{{ route( 'front.get.product', $recommendProduct->product->slug ) }}">
                             @if (!isset($recommendProduct->product->cover) )
-                                <figure>
-                                    <img class="img-bordered img-responsive" src="{{ $recommendProduct->product->cover }}">
-                                    <figcaption>{{ $recommendProduct->product->name }}</figcaption>
+                                <figure class="recommendFigure">
+                                    <img class="img-bordered img-responsive recommendImg" src="{{ $recommendProduct->product->cover }}">
+                                    <figcaption class="recommendfigCaption">{{ $recommendProduct->product->name }}</figcaption>
                                 </figure>
                             @else
-                                <figure>
-                                    <img class="img-responsive img-thumbnail" src="{{ asset('images/NoData.png') }}" >
-                                    <figcaption>{{ $recommendProduct->product->name }}</figcaption>
+                                <figure class="recommendFigure">
+                                    <img class="img-responsive img-thumbnail recommendImg" src="{{ asset('images/NoData.png') }}" >
+                                    <figcaption class="recommendfigCaption">{{ $recommendProduct->product->name }}</figcaption>
                                 </figure>
                             @endif
                         </a>
@@ -163,6 +164,7 @@
             </ul>
         </h3>
     </div>
+    @endif
 </div>
 @section('js')
     <script type="text/javascript">
