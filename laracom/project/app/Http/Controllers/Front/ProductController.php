@@ -68,11 +68,9 @@ class ProductController extends Controller
             $reviews = 0;
         }
 
-
         // レコメンドの商品を取得するクラスを呼び出す
         $recommendProducts = $this->productRepo->recommendProducts($product);
 
-        \Log::debug($recommendProducts);
         return view('front.products.product', compact(
             'product',
             'images',
