@@ -19,6 +19,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\ReviewProduct;
 
 class ProductRepository extends BaseRepository implements ProductRepositoryInterface
 {
@@ -333,5 +334,66 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function findBrand()
     {
         return $this->model->brand;
+    }
+
+    /**
+     * @return 
+     */
+    public function recommendProducts($product)
+    {
+
+         // 指定された商品の特徴ベクトルを取得
+         $productVector = collect([$product->category_id, $product->material, $product->brand_id, $product->weight]);
+ 
+         // コサイン類似度を計算して商品を推薦
+         return Product::where('id', '!=', $product->id)
+         ->get()
+         ->map(function ($otherProduct) use ($productVector) {
+             $otherVector = collect([$otherProduct->category_id, $otherProduct->material, $otherProduct->brand_id, $otherProduct->weight]);
+             // ベクトルの内積を計算
+             $dotProduct = $productVector->zip($otherVector)->map(function ($item) {
+                 return $item[0] * $item[1];
+             })->sum();
+             // ベクトルの大きさを計算
+             $magnitude1 = sqrt($productVector->map(function ($item) {
+                 return $item ** 2;
+             })->sum());
+             $magnitude2 = sqrt($otherVector->map(function ($item) {
+                 return $item ** 2;
+             })->sum());
+             // 類似度を計算
+             $similarity = ($magnitude1 == 0 || $magnitude2 == 0) ? 0 : $dotProduct / ($magnitude1 * $magnitude2);
+             return (object)[
+                 'product' => $otherProduct,
+                 'similarity' => $similarity,
+             ];
+         })
+         ->sortByDesc('similarity')
+         ->take(5); // 上位5つの類似商品を取得
+
+    }
+
+        /**
+     * @return 
+     */
+    public function recommendProductReviews($recommendProducts){
+
+        // 平均評価を格納するコレクションを初期化
+        $recommendProductReviews = collect();
+
+        // おすすめ商品のIDごとにループしてレビューデータを取得し、平均評価を計算
+        foreach ($recommendProducts as $recommendProduct) {
+            // 商品に関連するレビューデータの平均評価を取得
+            $averageRating = ReviewProduct::where('product_id', $recommendProduct->product->id)->avg('review_star');
+
+            // 平均評価をコレクションに追加
+            $recommendProductReviews->push([
+                'product_id' => $recommendProduct->product->id,
+                'average_rating' => $averageRating ?: 0, // 平均評価がnullの場合は0を設定
+            ]);
+        }
+
+        // 平均評価のコレクションを返す
+        return $recommendProductReviews;
     }
 }

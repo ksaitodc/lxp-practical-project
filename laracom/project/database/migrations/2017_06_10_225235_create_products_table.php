@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->text('description')->nullable();
             $table->string('cover')->nullable();
             $table->integer('quantity');
+            $table->integer('material')->unsigned()->nullable(); // 外部キーの場合はunsigned()を使う
             $table->decimal('price');
             $table->integer('status')->default(0);
             $table->timestamps();

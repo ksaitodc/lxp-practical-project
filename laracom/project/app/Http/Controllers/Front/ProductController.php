@@ -8,7 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Shop\Products\Transformations\ProductTransformable;
 
 // model
-use App\ReviewProduct; 
+use App\ReviewProduct;
+use App\materialMst; 
 
 
 class ProductController extends Controller
@@ -67,12 +68,28 @@ class ProductController extends Controller
             $reviews = 0;
         }
 
+        // レコメンドの商品を取得するクラスを呼び出す
+        $recommendProducts = $this->productRepo->recommendProducts($product);
+
+        // レコメンドの商品に紐づいたレビューデータを取得するクラスを呼び出す
+        $recommendProductReviews = $this->productRepo->recommendProductReviews($recommendProducts);
+
+        $recommendProducts = $recommendProducts->values();
+        $recommendProductReviews = $recommendProductReviews->values();
+
+        \Log::debug($recommendProducts);
+        \Log::debug($recommendProductReviews);
+
+
+
         return view('front.products.product', compact(
             'product',
             'images',
             'productAttributes',
             'category',
-            'reviews'
+            'reviews',
+            'recommendProducts',
+            'recommendProductReviews'
         ));
     }
 }

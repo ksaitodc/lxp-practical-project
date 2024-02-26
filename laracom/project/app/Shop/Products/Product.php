@@ -10,6 +10,7 @@ use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use App\materialsMst;
 
 class Product extends Model implements Buyable
 {
@@ -65,6 +66,7 @@ class Product extends Model implements Buyable
         'height',
         'distance_unit',
         'slug',
+        'material',
     ];
 
     /**
@@ -143,5 +145,13 @@ class Product extends Model implements Buyable
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+     /**
+     * @return 
+     */
+    public function material()
+    {
+        return $this->belongsTo(materialsMst::class);
     }
 }

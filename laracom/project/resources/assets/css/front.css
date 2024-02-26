@@ -360,6 +360,44 @@ li.menubar-cart a {
     width: 750px;
 }
 
+
+.recommends{
+    padding-top: 100px;
+
+}
+.recommendUl{
+    display: flex; /* 横並びにする */
+
+}
+.recommendation-container {
+    overflow-x: auto; /* 横スクロールを表示する */
+}
+
+.reccomendList{
+    padding-left: 150px;
+}
+
+.recommendFigure{
+    border: thin #c0c0c0 solid;
+    display: flex;
+    flex-flow: column;
+    padding: 5px;
+    margin: auto;
+  }
+  
+.recommendImg {
+    max-width: 500px;
+}
+
+.recommendfigCaption {
+    background-color: #222;
+    color: #fff;
+    padding: 3px;
+    text-align: center;
+    font-size: 20px;
+  }
+  
+
 /* ************************
         OFFER
 ************************** */
