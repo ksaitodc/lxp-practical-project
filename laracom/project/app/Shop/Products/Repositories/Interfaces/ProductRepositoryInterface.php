@@ -61,4 +61,6 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function findBrand();
 
     public function recommendProducts($product);
+
+    public function recommendProductReviews($recommendProducts);
 }

@@ -140,32 +140,45 @@
             </div>
         </div>
     </div>
-    @if(isset($recommendProducts))
-    <div class="col-md-8 recommends">
-        <h3>
-            <ul class="col-md-8 list-unstyled" style="display: flex;">
-                @foreach ($recommendProducts as $recommendProduct)
-                    <li class="reccomendList">
-                        <a href="{{ route( 'front.get.product', $recommendProduct->product->slug ) }}">
-                            @if (!isset($recommendProduct->product->cover) )
-                                <figure class="recommendFigure">
-                                    <img class="img-bordered img-responsive recommendImg" src="{{ $recommendProduct->product->cover }}">
-                                    <figcaption class="recommendfigCaption">{{ $recommendProduct->product->name }}</figcaption>
-                                </figure>
-                            @else
-                                <figure class="recommendFigure">
-                                    <img class="img-responsive img-thumbnail recommendImg" src="{{ asset('images/NoData.png') }}" >
-                                    <figcaption class="recommendfigCaption">{{ $recommendProduct->product->name }}</figcaption>
-                                </figure>
-                            @endif
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-        </h3>
-    </div>
-    @endif
 </div>
+
+@if(isset($recommendProducts))
+        <div class="col-md-24 recommends">
+            <h3>
+            <span>おすすめ商品</span>
+                <div class="recommendation-container">
+                    <ul class="col-md-24 list-unstyled recommendUl">
+                        @foreach ($recommendProducts as $recommendProduct)
+                            <li class="reccomendList">
+                                <a href="{{ route( 'front.get.product', $recommendProduct->product->slug ) }}">
+                                    @if (!isset($recommendProduct->product->cover) )
+                                        <figure class="recommendFigure">
+                                            <img class="img-bordered img-responsive recommendImg" src="{{ $recommendProduct->product->cover }}">
+                                            <figcaption class="recommendfigCaption">{{ $recommendProduct->product->name }}</figcaption>
+                                        </figure>
+                                    @else
+                                        <figure class="recommendFigure">
+                                            <img class="img-responsive img-thumbnail recommendImg" src="{{ asset('images/NoData.png') }}" >
+                                            <figcaption class="recommendfigCaption">{{ $recommendProduct->product->name }}</figcaption>
+                                        </figure>
+                                    @endif
+                                    <div class="star-rating">
+                                        @foreach (range(1, 5) as $_)
+                                            @if ($_ <= $recommendProductReviews->where('product_id', $recommendProduct->product->id)->first()['average_rating'])
+                                                <span class="star_on">&#9733;</span>
+                                            @else
+                                                <span class="star_off">&#9733;</span>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </h3>
+        </div>
+    @endif
 @section('js')
     <script type="text/javascript">
         $(document).ready(function() {

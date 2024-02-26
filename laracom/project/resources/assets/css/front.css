@@ -363,11 +363,18 @@ li.menubar-cart a {
 
 .recommends{
     padding-top: 100px;
-    padding-left: 300px;
+
+}
+.recommendUl{
+    display: flex; /* 横並びにする */
+
+}
+.recommendation-container {
+    overflow-x: auto; /* 横スクロールを表示する */
 }
 
 .reccomendList{
-    padding-left: 30px;
+    padding-left: 150px;
 }
 
 .recommendFigure{
@@ -375,13 +382,11 @@ li.menubar-cart a {
     display: flex;
     flex-flow: column;
     padding: 5px;
-    max-width: 220px;
     margin: auto;
   }
   
 .recommendImg {
-max-width: 220px;
-max-height: 150px;
+    max-width: 500px;
 }
 
 .recommendfigCaption {

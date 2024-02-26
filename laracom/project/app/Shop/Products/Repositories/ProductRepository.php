@@ -19,6 +19,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\ReviewProduct;
 
 class ProductRepository extends BaseRepository implements ProductRepositoryInterface
 {
@@ -370,5 +371,29 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
          ->sortByDesc('similarity')
          ->take(5); // 上位5つの類似商品を取得
 
+    }
+
+        /**
+     * @return 
+     */
+    public function recommendProductReviews($recommendProducts){
+
+        // 平均評価を格納するコレクションを初期化
+        $recommendProductReviews = collect();
+
+        // おすすめ商品のIDごとにループしてレビューデータを取得し、平均評価を計算
+        foreach ($recommendProducts as $recommendProduct) {
+            // 商品に関連するレビューデータの平均評価を取得
+            $averageRating = ReviewProduct::where('product_id', $recommendProduct->product->id)->avg('review_star');
+
+            // 平均評価をコレクションに追加
+            $recommendProductReviews->push([
+                'product_id' => $recommendProduct->product->id,
+                'average_rating' => $averageRating ?: 0, // 平均評価がnullの場合は0を設定
+            ]);
+        }
+
+        // 平均評価のコレクションを返す
+        return $recommendProductReviews;
     }
 }

@@ -71,13 +71,25 @@ class ProductController extends Controller
         // レコメンドの商品を取得するクラスを呼び出す
         $recommendProducts = $this->productRepo->recommendProducts($product);
 
+        // レコメンドの商品に紐づいたレビューデータを取得するクラスを呼び出す
+        $recommendProductReviews = $this->productRepo->recommendProductReviews($recommendProducts);
+
+        $recommendProducts = $recommendProducts->values();
+        $recommendProductReviews = $recommendProductReviews->values();
+
+        \Log::debug($recommendProducts);
+        \Log::debug($recommendProductReviews);
+
+
+
         return view('front.products.product', compact(
             'product',
             'images',
             'productAttributes',
             'category',
             'reviews',
-            'recommendProducts'
+            'recommendProducts',
+            'recommendProductReviews'
         ));
     }
 }
