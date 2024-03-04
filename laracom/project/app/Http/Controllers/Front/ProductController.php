@@ -77,9 +77,6 @@ class ProductController extends Controller
         $recommendProducts = $recommendProducts->values();
         $recommendProductReviews = $recommendProductReviews->values();
 
-        \Log::debug($recommendProducts);
-        \Log::debug($recommendProductReviews);
-
 
 
         return view('front.products.product', compact(

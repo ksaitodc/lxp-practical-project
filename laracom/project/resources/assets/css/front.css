@@ -633,7 +633,7 @@ textarea, select {
     display: block;
 }
 
-.star-rating {
+.starRating {
     font-size: 0; /* 行の高さをなくす */
 }
 
