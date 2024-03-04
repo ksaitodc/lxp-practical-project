@@ -68,9 +68,7 @@ class ReviewController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        dd($customer);
-        
+    {   
         $reviews = ReviewProduct::with('customer')->orderBy('created_at', 'desc')->paginate(10);
 
 
@@ -81,7 +79,7 @@ class ReviewController extends Controller
     public function store(AddToReview $request)
     {
         $requestCollection = collect($request);
-        \Log::debug($requestCollection);
+
         $customer = Auth::user();
         $productId = intVal($requestCollection->get('productId'));
         $starRating = intVal($requestCollection->get('starRating'));
