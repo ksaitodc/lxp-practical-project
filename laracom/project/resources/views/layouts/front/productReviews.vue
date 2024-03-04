@@ -43,58 +43,63 @@
 <script>
 import axios from 'axios';
 export default {
-  props: ['reviews', 'authenticated', 'product'],
-  data() {
-    return {
-      starRating: '',
-      reviewText: ''
-    };
-  },
-  methods: {
-	mounted() {
-    // ページが読み込まれた際に実行される処理
-    document.getElementById('reviewInput').style.display = 'none'; // ボタンを非表示にする
-	},
-	checkInputs() {
-      // 両方の入力フィールドが空でない場合にボタンを表示する
-      if (this.starRating !== '' && this.textRating !== '') {
-        document.getElementById('reviewInput').style.display = 'block'; // ボタンを表示する
-      } else {
-        document.getElementById('reviewInput').style.display = 'none'; // ボタンを非表示にする
-      }
-    },
-
-    submitReview() {
-		const reviewData = {
-			starRating: this.starRating,
-			textRating: this.textRating,
-			productId: this.product.id,
-			product: this.product
+	props: ['reviews', 'authenticated', 'product'],
+	data() {
+		return {
+			starRating: '',
+			reviewText: ''
 		};
+	},
+	mounted() {
+		// ページが読み込まれた際に実行される処理
+		document.getElementById('reviewInput').style.display = 'none'; // ボタンを非表示にする
+	},
 
-      axios.post('/review', reviewData)
-        .then(response => {
-          console.log('レビューが送信されました:', response.data);
-          // 送信後の処理を追加
-           window.location.reload();
-        })
-        .catch(error => {
-           // エラーが発生した場合の処理
-			if (error.response) {
-			// サーバーからのレスポンスがある場合
-			console.log('レビューが送信されました:', response.data);
-			console.error('サーバーからのエラーレスポンス:', error.response.data);
-			} else if (error.request) {
-			// リクエストが行われたがレスポンスがない場合
-			console.log('レビューが送信されました:', response.data);
-			console.error('レスポンスがありませんでした:', error.request);
+	methods: {
+
+		checkInputs() {
+			// 両方の入力フィールドが空でない場合にボタンを表示する
+			if (this.starRating !== '' && this.textRating !== '') {
+			document.getElementById('reviewInput').style.display = 'block'; // ボタンを表示する
 			} else {
-			// リクエストを送信する前にエラーが発生した場合
-			console.log('レビューが送信されました:', response.data);
-			console.error('リクエスト送信前にエラーが発生しました:', error.message);
+			document.getElementById('reviewInput').style.display = 'none'; // ボタンを非表示にする
 			}
-        });
-    }
+		},
+
+		submitReview() {
+			const reviewData = {
+				starRating: this.starRating,
+				textRating: this.textRating,
+				productId: this.product.id,
+				product: this.product
+			};
+
+		axios
+		.post('/review', reviewData)
+		.then(response => {
+			console.log('レビューが送信されました:', response.data);
+			// 送信後の処理を追加
+			window.location.reload();
+		})
+		.catch(error => {
+			// エラーが発生した場合の処理
+			if (error.response) {
+				// サーバーからのレスポンスがある場合
+				console.log('レビューが送信されました:', response.data);
+				console.error('サーバーからのエラーレスポンス:', error.response.data);
+			} 
+			else if (error.request) {
+				// リクエストが行われたがレスポンスがない場合
+				console.log('レビューが送信されました:', response.data);
+				console.error('レスポンスがありませんでした:', error.request);
+			} 
+			else {
+				// リクエストを送信する前にエラーが発生した場合
+				console.log('レビューが送信されました:', response.data);
+				console.error('リクエスト送信前にエラーが発生しました:', error.message);
+			}
+		});
+	}
   },
 };
 </script>
