@@ -77,65 +77,15 @@
                         <button type="submit" class="btn btn-warning"><i class="fa fa-cart-plus"></i> かごに追加
                         </button>
                     </form>
-                    
-                    <h2>
-                        @if(!isset($reviews))
-                            <small style="font-size: 18px;">商品画面からレビューを確認できます</small>
-                        @elseif($reviews === 0)
-                            <div class="reviews">
-                                <small>まだレビューが投稿されていません</small>
-                            </div>
-                            <div class="reviews-form">
-                                @if(Auth::check())
-                                    <form action="{{ route('review.index') }}" class="form-inline" method="post">
-                                        {{ csrf_field() }}
-                                        <input type="number" id="star-rating" name="star-rating" min="1" max="5">
-                                        <input type="text" id="text-rating" name="text-rating">
-                                        <input type="hidden" name="product" value="{{ $product->id }}" />
-                                        <button type="submit" class="btn btn-warning"><i class="fa fa-regist-review"></i> 登録 </button>
-                                    </form>
-                                @endif
-                            </div>
-                        @else
-                            <div class="reviews">
-                                <table>
-                                    @foreach ($reviews as $review)
-                                        <tr>
-                                            <td>
-                                                <div class="star-rating">
-                                                    @foreach (range(1, 5) as $_)
-                                                        @if ($_ <= $review->review_star)
-                                                            <span class="star_on">&#9733;</span>
-                                                        @else
-                                                            <span class="star_off">&#9733;</span>
-                                                        @endif
-                                                    @endforeach
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="reviwe-comment">
-                                                    <textarea class="review-comment" readonly>{{$review->review_comment}}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </table>
-                            </div>
-                            <div class="reviews-form">
-                                @if(Auth::check())
-                                    <form action="{{ route('review.index') }}" class="form-inline" method="post">
-                                        {{ csrf_field() }}
-                                        <input type="number" id="star-rating" name="star-rating" class="review-input" min="1" max="5">
-                                        <input type="text" id="text-rating" name="text-rating" class="review-input-text">
-                                        <input type="hidden" name="product" value="{{ $product->id }}" />
-                                        <button type="submit" class="btn btn-warning" id='reviewInput'><i class="fa fa-regist-review"></i>登録</button>
-                                    </form>
-                                @endif
-                            </div>
-                        @endif
-                    </h2>
+                    <!-- ここでproductReviews.vueを読み込む -->
+                    @if(!isset($reviews))
+                        <small style="font-size: 18px;">商品画面からレビューを確認できます</small>
+
+                    @else
+                        <div id="app">
+                            <product-reviews :reviews="{{ $reviews }}" :product="{{ $product }}" :authenticated="{{ Auth::check() ? 'true' : 'false' }}"></product-reviews>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -143,42 +93,43 @@
 </div>
 
 @if(isset($recommendProducts))
-        <div class="col-md-24 recommends">
-            <h3>
-            <span>おすすめ商品</span>
-                <div class="recommendation-container">
-                    <ul class="col-md-24 list-unstyled recommendUl">
-                        @foreach ($recommendProducts as $recommendProduct)
-                            <li class="reccomendList">
-                                <a href="{{ route( 'front.get.product', $recommendProduct->product->slug ) }}">
-                                    @if (!isset($recommendProduct->product->cover) )
-                                        <figure class="recommendFigure">
-                                            <img class="img-bordered img-responsive recommendImg" src="{{ $recommendProduct->product->cover }}">
-                                            <figcaption class="recommendfigCaption">{{ $recommendProduct->product->name }}</figcaption>
-                                        </figure>
-                                    @else
-                                        <figure class="recommendFigure">
-                                            <img class="img-responsive img-thumbnail recommendImg" src="{{ asset('images/NoData.png') }}" >
-                                            <figcaption class="recommendfigCaption">{{ $recommendProduct->product->name }}</figcaption>
-                                        </figure>
-                                    @endif
-                                    <div class="star-rating">
-                                        @foreach (range(1, 5) as $_)
-                                            @if ($_ <= $recommendProductReviews->where('product_id', $recommendProduct->product->id)->first()['average_rating'])
-                                                <span class="star_on">&#9733;</span>
-                                            @else
-                                                <span class="star_off">&#9733;</span>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </h3>
-        </div>
-    @endif
+    <div class="col-md-24 recommends">
+        <h3>
+        <span>おすすめ商品</span>
+            <div class="recommendation-container">
+                <ul class="col-md-24 list-unstyled recommendUl">
+                    @foreach ($recommendProducts as $recommendProduct)
+                        <li class="reccomendList">
+                            <a href="{{ route( 'front.get.product', $recommendProduct->product->slug ) }}">
+                                @if (!isset($recommendProduct->product->cover) )
+                                    <figure class="recommendFigure">
+                                        <img class="img-bordered img-responsive recommendImg" src="{{ $recommendProduct->product->cover }}">
+                                        <figcaption class="recommendfigCaption">{{ $recommendProduct->product->name }}</figcaption>
+                                    </figure>
+                                @else
+                                    <figure class="recommendFigure">
+                                        <img class="img-responsive img-thumbnail recommendImg" src="{{ asset('images/NoData.png') }}" >
+                                        <figcaption class="recommendfigCaption">{{ $recommendProduct->product->name }}</figcaption>
+                                    </figure>
+                                @endif
+                                <div class="star-rating">
+                                    @foreach (range(1, 5) as $_)
+                                        @if ($_ <= $recommendProductReviews->where('product_id', $recommendProduct->product->id)->first()['average_rating'])
+                                            <span class="star_on">&#9733;</span>
+                                        @else
+                                            <span class="star_off">&#9733;</span>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </h3>
+    </div>
+@endif
+
 @section('js')
     <script type="text/javascript">
         $(document).ready(function() {
@@ -191,4 +142,5 @@
             });
         });
     </script>
+    <script src="{{ asset('js/app.js') }}"></script>
 @endsection

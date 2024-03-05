@@ -14,8 +14,7 @@ class AddToReview extends BaseFormRequest
     public function rules()
     {   
         return [
-            'star-rating' => ['required'],
-            'text-rating' => ['required','max:101']
+            
         ];
     }
 }

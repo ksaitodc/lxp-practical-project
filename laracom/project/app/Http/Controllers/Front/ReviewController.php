@@ -68,9 +68,7 @@ class ReviewController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-
-        
+    {   
         $reviews = ReviewProduct::with('customer')->orderBy('created_at', 'desc')->paginate(10);
 
 
@@ -80,22 +78,29 @@ class ReviewController extends Controller
 
     public function store(AddToReview $request)
     {
-        $product = $this->productRepo->findProductById($request->input('product'));
-        $customer = Auth::user();
-        //dd($customer);
+        $requestCollection = collect($request);
 
+        $customer = Auth::user();
+        $productId = intVal($requestCollection->get('productId'));
+        $starRating = intVal($requestCollection->get('starRating'));
+        $textRating = $requestCollection->get('textRating');
+
+
+        $slug = $requestCollection['product']['slug'];
+        
+    
          // 新しいレビューを作成
         $review = new ReviewProduct([
-            'product_id' => $product->id,
+            'product_id' => $productId,
             'customer_id' => $customer->id,
-            'review_star' => $request->input('star-rating'),
-            'review_comment' => $request->input('text-rating'),
+            'review_star' => $starRating,
+            'review_comment' => $textRating,
         ]);
 
         // レビューを保存
         $review->save();
 
-        return redirect()->route('front.get.product', ['product' => $product->slug])->with('message', '評価とコメントを登録しました');
+        return redirect()->route('front.get.product', ['product' => $slug])->with('message', '評価とコメントを登録しました');
 
     }
 }

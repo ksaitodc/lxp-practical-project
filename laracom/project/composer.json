@@ -20,7 +20,7 @@
         "laravel/framework": "8.75.0",
         "laravel/legacy-factories": "^1.1",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.3",
+        "laravel/ui": "^3.4",
         "nicolaslopezj/searchable": "^1.10",
         "paypal/rest-api-sdk-php": "*",
         "santigarcor/laratrust": "^6.3",

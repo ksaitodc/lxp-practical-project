@@ -26,8 +26,8 @@ $(document).ready(function () {
 document.addEventListener("DOMContentLoaded", function() {
   // 入力フィールドの値が変更されたときに実行される関数
   function checkInputs() {
-      var starRating = document.getElementById('star-rating').value.trim(); // 星評価の値を取得
-      var textRating = document.getElementById('text-rating').value.trim(); // テキスト評価の値を取得
+      var starRating = document.getElementById('starRating').value.trim(); // 星評価の値を取得
+      var textRating = document.getElementById('textRating').value.trim(); // テキスト評価の値を取得
 
       // 両方の入力フィールドが空でない場合にボタンを表示する
       if (starRating !== '' && textRating !== '') {
@@ -38,8 +38,8 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // 入力が変更されるたびに実行されるイベントリスナーを追加
-  document.getElementById('star-rating').addEventListener('input', checkInputs);
-  document.getElementById('text-rating').addEventListener('input', checkInputs);
+  document.getElementById('starRating').addEventListener('input', checkInputs);
+  document.getElementById('textRating').addEventListener('input', checkInputs);
 
   // 初期状態でボタンを隠す
   checkInputs();
